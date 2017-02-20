@@ -2,6 +2,7 @@ import React from "react"
 import { connect } from "react-redux"
 
 import { fetchCells } from "../actions/cellsActions"
+import Board from './Board.js'
 
 @connect((store) => {
   return {
@@ -21,22 +22,29 @@ export default class Layout extends React.Component {
   nextCells(){
     this.props.dispatch(fetchCells(this.props.cells))
   }
-  //
-  // fetchTweets() {
-  //   this.props.dispatch(fetchTweets())
-  // }
+
+  randomCells(){
+    let newCells = []
+    for(let i=0;i<3;i++){
+      let newRow =[]
+      for(let x=0;x<3;x++){
+        newRow.push( Math.floor((Math.random() * 2)) )
+      }
+      newCells.push(newRow)
+    }
+
+    this.props.dispatch(fetchCells(newCells))
+  }
 
   render() {
     const { cells } = this.props;
 
-    // if (!tweets.length) {
-    //   return <button onClick={this.fetchTweets.bind(this)}>load tweets</button>
-    // }
-
-    // const mappedTweets = tweets.map(tweet => <li key={tweets.indexOf(tweet)}> {tweet.text} </li>)
-
     return <div>
       <h1>Game of life</h1>
+      <button onClick={this.randomCells.bind(this)}>random</button>
+      <div className="boardContainer">
+        <Board cells={cells}/>
+      </div>
       <button onClick={this.nextCells.bind(this)}>next</button>
     </div>
   }

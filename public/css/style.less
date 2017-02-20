@@ -136,270 +136,73 @@ body
   margin: 0;
   .flex;
 
+  background: rgba(77,74,82,1);
+  background: -moz-linear-gradient(-45deg, rgba(77,74,82,1) 0%, rgba(20,2,19,1) 100%);
+  background: -webkit-gradient(left top, right bottom, color-stop(0%, rgba(77,74,82,1)), color-stop(100%, rgba(20,2,19,1)));
+  background: -webkit-linear-gradient(-45deg, rgba(77,74,82,1) 0%, rgba(20,2,19,1) 100%);
+  background: -o-linear-gradient(-45deg, rgba(77,74,82,1) 0%, rgba(20,2,19,1) 100%);
+  background: -ms-linear-gradient(-45deg, rgba(77,74,82,1) 0%, rgba(20,2,19,1) 100%);
+  background: linear-gradient(135deg, rgba(77,74,82,1) 0%, rgba(20,2,19,1) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4d4a52', endColorstr='#140213', GradientType=1 );
+
+  color: #ffaf00;
+
   #app
   {
     width: 100%;
+    text-align: center;
 
-    
-  }
-
-  #loading
-  {
-    position: fixed;
-    z-index: 9999;
-    width: 100%;
-    height: 100%;
-    background-color: #e4f3fd;
-    top: 0;
-    left: 0;
-    opacity: .8;
-    justify-content: center;
-    .flex;
-
-    .spinner
+    h1
     {
-      width: 50px;
-      height: 50px;
-      display: block;
-      background-image: url(../img/spinner.svg);
-      background-size: cover;
-      align-self: center;
-    }
-  }
-
-  .hide
-  {
-    display: none !important;
-  }
-
-  .nothing
-  {
-    width: 65%;
-    margin: 0;
-    flex-wrap: wrap;
-    flex-direction: row;
-    .flex;
-  }
-
-  ///// icons /////
-
-  i.icon
-  {
-    align-self: center;
-    background-repeat: no-repeat;
-    background-position: 100%;
-    background-size: 100%;
-    display: block;
-    // .border-radius(50%);
-
-    &.smaller
-    {
-      width: 17px;
-      height: 17px;
-      margin: 7px;
+      font-weight: 100 !important;
+      font-size: 2em !important;
     }
 
-    &.small
+    .boardContainer
     {
-      width: 25px;
-      height: 25px;
-      margin: 4px;
-    }
+      margin: 50px 0;
 
-    &.bitsmall
-    {
-      width: 16px;
-      height: 16px;
-      margin: 0px;
-    }
-
-    &.normal
-    {
-      width: 26px;
-      height: 26px;
-    }
-
-    &.big
-    {
-      width: 100%;
-      height: 150px;
-    }
-    //
-    // &.light_blue
-    // {
-    //   background-color: #87b4c6;
-    //
-    //   &:hover
-    //   {
-    //     background-color: #27b7f1;
-    //     cursor: pointer;
-    //   }
-    // }
-
-    &.transparent
-    {
-      // &:hover
-      // {
-      //   transform: scale(1.25);
-      //   cursor: pointer;
-      //   .animate();
-      // }
-    }
-
-    &.transparent_white_border
-    {
-      background-color: transparent;
-      border: 1px solid white;
-
-      &:hover
+      .board
       {
-        background-color: rgba(255, 255, 255, 0.35);
-        .animate();
-      }
-    }
+        flex-direction: column;
+        .flex;
 
-    &.logo_black
-    {
-      background-image: url(../img/caldearte_logo_black.svg);
-    }
-
-    &.logo_calipso
-    {
-      background-image: url(../img/caldearte.svg);
-    }
-
-    &.facebook_calipso
-    {
-      background-image: url(../img/facebook_calipso.svg);
-    }
-
-    &.twitter_calipso
-    {
-      background-image: url(../img/twitter_calipso.svg);
-    }
-    &.releasebird
-    {
-      background-image: url(../img/releasebird.svg);
-    }
-
-  }
-
-}
-
-//////// Mobile - Tablet //////////
-@media (max-width:1025px) {
-  .caldearte
-  {
-    flex-direction: column;
-
-    .appPanel
-    {
-      width: 100% !important;
-
-      .fixedContent
-      {
-        width: 100% !important;
-        position: relative !important;
-
-        .logo
+        .row
         {
+          justify-content: center;
+          flex-direction: row;
+          .flex;
 
-          i
+          li
           {
-            height: 80px;
-            margin-top: 10px;
-          }
+            list-style: none;
+            border: 1px solid #695c31;
+            padding: 50px;
+            margin: 1px;
+            border-radius: 5px;
 
-          .slogan
-          {
-            margin-bottom: 10px !important;
-
-          }
-        }
-
-        .artfilter
-        {
-          margin-top: 0 !important;
-          margin-bottom: 0 !important;
-
-          .filter
-          {
-            h3
+            &.live
             {
-              font-size: 12px;
+              color: #ff4500;
+              // background: rgba(145, 255, 0, 0.38);
+              background: rgba(210,255,82,1);
+              background: -moz-linear-gradient(-45deg, rgba(210,255,82,1) 0%, rgba(145,232,66,1) 100%);
+              background: -webkit-gradient(left top, right bottom, color-stop(0%, rgba(210,255,82,1)), color-stop(100%, rgba(145,232,66,1)));
+              background: -webkit-linear-gradient(-45deg, rgba(210,255,82,1) 0%, rgba(145,232,66,1) 100%);
+              background: -o-linear-gradient(-45deg, rgba(210,255,82,1) 0%, rgba(145,232,66,1) 100%);
+              background: -ms-linear-gradient(-45deg, rgba(210,255,82,1) 0%, rgba(145,232,66,1) 100%);
+              background: linear-gradient(135deg, rgba(210,255,82,1) 0%, rgba(145,232,66,1) 100%);
+              filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d2ff52', endColorstr='#91e842', GradientType=1 );
             }
-
-            .select
+            &.dead
             {
-              padding: 4px !important;
-              margin-bottom: 4px !important;
-
-
-              select
-              {
-                width: 160px !important;
-              }
+              background: rgba(0, 0, 0, 0.56);
+              color: #634c30;
             }
           }
         }
-
-        .speech
-        {
-          display: none !important;
-        }
-
-        .social
-        {
-          margin-top: 20px;
-          margin-bottom: 10px;
-        }
-
-
-      }
-    }
-
-    .pastopening
-    {
-      .summary
-      {
-        font-size: 12px !important;
-        margin-top: 8px;
-        .ellipsis;
-      }
-
-      .datetime
-      {
-        font-size: 12px !important;
-        .ellipsis;
-      }
-
-      .location
-      {
-        font-size: 12px !important;
-        .ellipsis;
-      }
-    }
-    .content
-    {
-      width: 100% !important;
-
-      .timefilter
-      {
-        position: relative !important;
-
-        .resume
-        {
-          align-self: center !important;
-          position: relative !important;
-          margin-top: 18px;
-          margin-bottom: -30px;
-        }
-      }
-
-      .categories
-      {
-        top: 0 !important;
       }
     }
   }
+
 }

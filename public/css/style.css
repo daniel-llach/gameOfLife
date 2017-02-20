@@ -76,41 +76,37 @@ body {
   display: -ms-flexbox;
   display: -webkit-flex;
   display: flex;
+  background: #4d4a52;
+  background: -moz-linear-gradient(-45deg, #4d4a52 0%, #140213 100%);
+  background: -webkit-gradient(left top, right bottom, color-stop(0%, #4d4a52), color-stop(100%, #140213));
+  background: -webkit-linear-gradient(-45deg, #4d4a52 0%, #140213 100%);
+  background: -o-linear-gradient(-45deg, #4d4a52 0%, #140213 100%);
+  background: -ms-linear-gradient(-45deg, #4d4a52 0%, #140213 100%);
+  background: linear-gradient(135deg, #4d4a52 0%, #140213 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#4d4a52', endColorstr='#140213', GradientType=1);
+  color: #ffaf00;
 }
 body #app {
   width: 100%;
+  text-align: center;
 }
-body #loading {
-  position: fixed;
-  z-index: 9999;
-  width: 100%;
-  height: 100%;
-  background-color: #e4f3fd;
-  top: 0;
-  left: 0;
-  opacity: .8;
-  justify-content: center;
+body #app h1 {
+  font-weight: 100 !important;
+  font-size: 2em !important;
+}
+body #app .boardContainer {
+  margin: 50px 0;
+}
+body #app .boardContainer .board {
+  flex-direction: column;
   display: -webkit-box;
   display: -moz-box;
   display: -ms-flexbox;
   display: -webkit-flex;
   display: flex;
 }
-body #loading .spinner {
-  width: 50px;
-  height: 50px;
-  display: block;
-  background-image: url(../img/spinner.svg);
-  background-size: cover;
-  align-self: center;
-}
-body .hide {
-  display: none !important;
-}
-body .nothing {
-  width: 65%;
-  margin: 0;
-  flex-wrap: wrap;
+body #app .boardContainer .board .row {
+  justify-content: center;
   flex-direction: row;
   display: -webkit-box;
   display: -moz-box;
@@ -118,133 +114,25 @@ body .nothing {
   display: -webkit-flex;
   display: flex;
 }
-body i.icon {
-  align-self: center;
-  background-repeat: no-repeat;
-  background-position: 100%;
-  background-size: 100%;
-  display: block;
+body #app .boardContainer .board .row li {
+  list-style: none;
+  border: 1px solid #695c31;
+  padding: 50px;
+  margin: 1px;
+  border-radius: 5px;
 }
-body i.icon.smaller {
-  width: 17px;
-  height: 17px;
-  margin: 7px;
+body #app .boardContainer .board .row li.live {
+  color: #ff4500;
+  background: #d2ff52;
+  background: -moz-linear-gradient(-45deg, #d2ff52 0%, #91e842 100%);
+  background: -webkit-gradient(left top, right bottom, color-stop(0%, #d2ff52), color-stop(100%, #91e842));
+  background: -webkit-linear-gradient(-45deg, #d2ff52 0%, #91e842 100%);
+  background: -o-linear-gradient(-45deg, #d2ff52 0%, #91e842 100%);
+  background: -ms-linear-gradient(-45deg, #d2ff52 0%, #91e842 100%);
+  background: linear-gradient(135deg, #d2ff52 0%, #91e842 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#d2ff52', endColorstr='#91e842', GradientType=1);
 }
-body i.icon.small {
-  width: 25px;
-  height: 25px;
-  margin: 4px;
-}
-body i.icon.bitsmall {
-  width: 16px;
-  height: 16px;
-  margin: 0px;
-}
-body i.icon.normal {
-  width: 26px;
-  height: 26px;
-}
-body i.icon.big {
-  width: 100%;
-  height: 150px;
-}
-body i.icon.transparent_white_border {
-  background-color: transparent;
-  border: 1px solid white;
-}
-body i.icon.transparent_white_border:hover {
-  background-color: rgba(255, 255, 255, 0.35);
-  -webkit-transition: all 0.2s ease-in-out;
-  -moz-transition: all 0.2s ease-in-out;
-  -o-transition: all 0.2s ease-in-out;
-  transition: all 0.2s ease-in-out;
-}
-body i.icon.logo_black {
-  background-image: url(../img/caldearte_logo_black.svg);
-}
-body i.icon.logo_calipso {
-  background-image: url(../img/caldearte.svg);
-}
-body i.icon.facebook_calipso {
-  background-image: url(../img/facebook_calipso.svg);
-}
-body i.icon.twitter_calipso {
-  background-image: url(../img/twitter_calipso.svg);
-}
-body i.icon.releasebird {
-  background-image: url(../img/releasebird.svg);
-}
-@media (max-width: 1025px) {
-  .caldearte {
-    flex-direction: column;
-  }
-  .caldearte .appPanel {
-    width: 100% !important;
-  }
-  .caldearte .appPanel .fixedContent {
-    width: 100% !important;
-    position: relative !important;
-  }
-  .caldearte .appPanel .fixedContent .logo i {
-    height: 80px;
-    margin-top: 10px;
-  }
-  .caldearte .appPanel .fixedContent .logo .slogan {
-    margin-bottom: 10px !important;
-  }
-  .caldearte .appPanel .fixedContent .artfilter {
-    margin-top: 0 !important;
-    margin-bottom: 0 !important;
-  }
-  .caldearte .appPanel .fixedContent .artfilter .filter h3 {
-    font-size: 12px;
-  }
-  .caldearte .appPanel .fixedContent .artfilter .filter .select {
-    padding: 4px !important;
-    margin-bottom: 4px !important;
-  }
-  .caldearte .appPanel .fixedContent .artfilter .filter .select select {
-    width: 160px !important;
-  }
-  .caldearte .appPanel .fixedContent .speech {
-    display: none !important;
-  }
-  .caldearte .appPanel .fixedContent .social {
-    margin-top: 20px;
-    margin-bottom: 10px;
-  }
-  .caldearte .pastopening .summary {
-    font-size: 12px !important;
-    margin-top: 8px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .caldearte .pastopening .datetime {
-    font-size: 12px !important;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .caldearte .pastopening .location {
-    font-size: 12px !important;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .caldearte .content {
-    width: 100% !important;
-  }
-  .caldearte .content .timefilter {
-    position: relative !important;
-  }
-  .caldearte .content .timefilter .resume {
-    align-self: center !important;
-    position: relative !important;
-    margin-top: 18px;
-    margin-bottom: -30px;
-  }
-  .caldearte .content .categories {
-    top: 0 !important;
-  }
+body #app .boardContainer .board .row li.dead {
+  background: rgba(0, 0, 0, 0.56);
+  color: #634c30;
 }

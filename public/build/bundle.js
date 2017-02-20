@@ -60,7 +60,7 @@
 	
 	var _Layout2 = _interopRequireDefault(_Layout);
 	
-	var _store = __webpack_require__(250);
+	var _store = __webpack_require__(226);
 	
 	var _store2 = _interopRequireDefault(_store);
 	
@@ -24993,7 +24993,11 @@
 	
 	var _reactRedux = __webpack_require__(184);
 	
-	var _cellsActions = __webpack_require__(264);
+	var _cellsActions = __webpack_require__(223);
+	
+	var _Board = __webpack_require__(225);
+	
+	var _Board2 = _interopRequireDefault(_Board);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -25027,21 +25031,25 @@
 	    value: function nextCells() {
 	      this.props.dispatch((0, _cellsActions.fetchCells)(this.props.cells));
 	    }
-	    //
-	    // fetchTweets() {
-	    //   this.props.dispatch(fetchTweets())
-	    // }
+	  }, {
+	    key: "randomCells",
+	    value: function randomCells() {
+	      var newCells = [];
+	      for (var i = 0; i < 3; i++) {
+	        var newRow = [];
+	        for (var x = 0; x < 3; x++) {
+	          newRow.push(Math.floor(Math.random() * 2));
+	        }
+	        newCells.push(newRow);
+	      }
 	
+	      this.props.dispatch((0, _cellsActions.fetchCells)(newCells));
+	    }
 	  }, {
 	    key: "render",
 	    value: function render() {
 	      var cells = this.props.cells;
 	
-	      // if (!tweets.length) {
-	      //   return <button onClick={this.fetchTweets.bind(this)}>load tweets</button>
-	      // }
-	
-	      // const mappedTweets = tweets.map(tweet => <li key={tweets.indexOf(tweet)}> {tweet.text} </li>)
 	
 	      return _react2.default.createElement(
 	        "div",
@@ -25050,6 +25058,16 @@
 	          "h1",
 	          null,
 	          "Game of life"
+	        ),
+	        _react2.default.createElement(
+	          "button",
+	          { onClick: this.randomCells.bind(this) },
+	          "random"
+	        ),
+	        _react2.default.createElement(
+	          "div",
+	          { className: "boardContainer" },
+	          _react2.default.createElement(_Board2.default, { cells: cells })
 	        ),
 	        _react2.default.createElement(
 	          "button",
@@ -25065,34 +25083,168 @@
 	exports.default = Layout;
 
 /***/ },
-/* 223 */,
-/* 224 */,
-/* 225 */,
-/* 226 */,
-/* 227 */,
-/* 228 */,
-/* 229 */,
-/* 230 */,
-/* 231 */,
-/* 232 */,
-/* 233 */,
-/* 234 */,
-/* 235 */,
-/* 236 */,
-/* 237 */,
-/* 238 */,
-/* 239 */,
-/* 240 */,
-/* 241 */,
-/* 242 */,
-/* 243 */,
-/* 244 */,
-/* 245 */,
-/* 246 */,
-/* 247 */,
-/* 248 */,
-/* 249 */,
-/* 250 */
+/* 223 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.fetchCells = fetchCells;
+	
+	var _cellsEvolution = __webpack_require__(224);
+	
+	function fetchCells(cells) {
+	
+	  var newCells = (0, _cellsEvolution.evolveCells)(cells);
+	
+	  return {
+	    type: "FETCH_CELLS_FULFILLED",
+	    payload: newCells
+	  };
+	}
+
+/***/ },
+/* 224 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.evolveCells = evolveCells;
+	function liveNeighbors(neighbors) {
+	  var count = 0;
+	  for (var i = 0; i < neighbors.length; i++) {
+	    neighbors[i] === 1 ? count++ : null;
+	  }
+	  return count;
+	}
+	
+	function evolveCells(cells) {
+	  var rowLimit = cells.length;
+	  var newCells = [];
+	  for (var i = 0; i < rowLimit; i++) {
+	    var colLimit = cells[i].length;
+	    var newCol = [];
+	    for (var x = 0; x < colLimit; x++) {
+	      // current cell
+	      var current = cells[i][x];
+	      // Define current neighbors
+	      var neighbors = [];
+	      // up
+	      cells[i - 1] === undefined ? null : cells[i - 1][x] === undefined ? null : neighbors.push(cells[i - 1][x]);
+	      // up right
+	      cells[i - 1] === undefined ? null : cells[i - 1][x + 1] === undefined ? null : neighbors.push(cells[i - 1][x + 1]);
+	      // right
+	      cells[i] === undefined ? null : cells[i][x + 1] === undefined ? null : neighbors.push(cells[i][x + 1]);
+	      // down right
+	      cells[i + 1] === undefined ? null : cells[i + 1][x + 1] === undefined ? null : neighbors.push(cells[i + 1][x + 1]);
+	      // down
+	      cells[i + 1] === undefined ? null : cells[i + 1][x] === undefined ? null : neighbors.push(cells[i + 1][x]);
+	      // down left
+	      cells[i + 1] === undefined ? null : cells[i + 1][x - 1] === undefined ? null : neighbors.push(cells[i + 1][x - 1]);
+	      //  left
+	      cells[i] === undefined ? null : cells[i][x - 1] === undefined ? null : neighbors.push(cells[i][x - 1]);
+	      //  up left
+	      cells[i - 1] === undefined ? null : cells[i - 1][x - 1] === undefined ? null : neighbors.push(cells[i - 1][x - 1]);
+	      // rules
+	      var lives = liveNeighbors(neighbors);
+	      if (current == 1) {
+	        switch (true) {
+	          case lives < 2:
+	            newCol.push(0);
+	            break;
+	          case lives > 1 && lives < 4:
+	            newCol.push(1);
+	            break;
+	          case lives > 3:
+	            newCol.push(0);
+	            break;
+	        }
+	        // life
+	      } else {
+	        // dead
+	        if (lives == 3) {
+	          newCol.push(1);
+	        } else {
+	          newCol.push(current);
+	        }
+	      }
+	    }
+	    newCells.push(newCol);
+	  }
+	  return newCells;
+	}
+
+/***/ },
+/* 225 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = undefined;
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactDom = __webpack_require__(38);
+	
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+	
+	var _RowCells = __webpack_require__(238);
+	
+	var _RowCells2 = _interopRequireDefault(_RowCells);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var Board = function (_Component) {
+	  _inherits(Board, _Component);
+	
+	  function Board() {
+	    _classCallCheck(this, Board);
+	
+	    return _possibleConstructorReturn(this, (Board.__proto__ || Object.getPrototypeOf(Board)).apply(this, arguments));
+	  }
+	
+	  _createClass(Board, [{
+	    key: 'render',
+	    value: function render() {
+	      var cells = this.props.cells;
+	
+	      var mappedRows = cells.map(function (row) {
+	        return _react2.default.createElement(_RowCells2.default, { key: cells.indexOf(row), cells: row });
+	      });
+	
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'board' },
+	        mappedRows
+	      );
+	    }
+	  }]);
+	
+	  return Board;
+	}(_react.Component);
+	
+	exports.default = Board;
+
+/***/ },
+/* 226 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -25103,19 +25255,19 @@
 	
 	var _redux = __webpack_require__(195);
 	
-	var _reduxLogger = __webpack_require__(251);
+	var _reduxLogger = __webpack_require__(227);
 	
 	var _reduxLogger2 = _interopRequireDefault(_reduxLogger);
 	
-	var _reduxThunk = __webpack_require__(257);
+	var _reduxThunk = __webpack_require__(233);
 	
 	var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
 	
-	var _reduxPromiseMiddleware = __webpack_require__(258);
+	var _reduxPromiseMiddleware = __webpack_require__(234);
 	
 	var _reduxPromiseMiddleware2 = _interopRequireDefault(_reduxPromiseMiddleware);
 	
-	var _reducers = __webpack_require__(260);
+	var _reducers = __webpack_require__(236);
 	
 	var _reducers2 = _interopRequireDefault(_reducers);
 	
@@ -25126,7 +25278,7 @@
 	exports.default = (0, _redux.createStore)(_reducers2.default, middleware);
 
 /***/ },
-/* 251 */
+/* 227 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(console) {'use strict';
@@ -25137,11 +25289,11 @@
 	
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 	
-	var _core = __webpack_require__(252);
+	var _core = __webpack_require__(228);
 	
-	var _helpers = __webpack_require__(253);
+	var _helpers = __webpack_require__(229);
 	
-	var _defaults = __webpack_require__(256);
+	var _defaults = __webpack_require__(232);
 	
 	var _defaults2 = _interopRequireDefault(_defaults);
 	
@@ -25245,7 +25397,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12)))
 
 /***/ },
-/* 252 */
+/* 228 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -25258,9 +25410,9 @@
 	
 	exports.printBuffer = printBuffer;
 	
-	var _helpers = __webpack_require__(253);
+	var _helpers = __webpack_require__(229);
 	
-	var _diff = __webpack_require__(254);
+	var _diff = __webpack_require__(230);
 	
 	var _diff2 = _interopRequireDefault(_diff);
 	
@@ -25387,7 +25539,7 @@
 	}
 
 /***/ },
-/* 253 */
+/* 229 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -25411,7 +25563,7 @@
 	var timer = exports.timer = typeof performance !== "undefined" && performance !== null && typeof performance.now === "function" ? performance : Date;
 
 /***/ },
-/* 254 */
+/* 230 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -25421,7 +25573,7 @@
 	});
 	exports.default = diffLogger;
 	
-	var _deepDiff = __webpack_require__(255);
+	var _deepDiff = __webpack_require__(231);
 	
 	var _deepDiff2 = _interopRequireDefault(_deepDiff);
 	
@@ -25510,7 +25662,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 255 */
+/* 231 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(global) {/*!
@@ -25939,7 +26091,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 256 */
+/* 232 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(console) {"use strict";
@@ -25991,7 +26143,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12)))
 
 /***/ },
-/* 257 */
+/* 233 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -26019,7 +26171,7 @@
 	exports['default'] = thunk;
 
 /***/ },
-/* 258 */
+/* 234 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -26036,7 +26188,7 @@
 	
 	exports.default = promiseMiddleware;
 	
-	var _isPromise = __webpack_require__(259);
+	var _isPromise = __webpack_require__(235);
 	
 	var _isPromise2 = _interopRequireDefault(_isPromise);
 	
@@ -26193,7 +26345,7 @@
 	}
 
 /***/ },
-/* 259 */
+/* 235 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -26214,7 +26366,7 @@
 	}
 
 /***/ },
-/* 260 */
+/* 236 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -26225,7 +26377,7 @@
 	
 	var _redux = __webpack_require__(195);
 	
-	var _cellsReducer = __webpack_require__(263);
+	var _cellsReducer = __webpack_require__(237);
 	
 	var _cellsReducer2 = _interopRequireDefault(_cellsReducer);
 	
@@ -26236,9 +26388,7 @@
 	});
 
 /***/ },
-/* 261 */,
-/* 262 */,
-/* 263 */
+/* 237 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -26268,101 +26418,72 @@
 	}
 
 /***/ },
-/* 264 */
+/* 238 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	/* WEBPACK VAR INJECTION */(function(console) {'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.fetchCells = fetchCells;
+	exports.default = undefined;
 	
-	var _cellsEvolution = __webpack_require__(265);
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
-	function fetchCells(cells) {
+	var _react = __webpack_require__(1);
 	
-	  var newCells = (0, _cellsEvolution.evolveCells)(cells);
+	var _react2 = _interopRequireDefault(_react);
 	
-	  return {
-	    type: "FETCH_CELLS_FULFILLED",
-	    payload: newCells
-	  };
-	}
-
-/***/ },
-/* 265 */
-/***/ function(module, exports) {
-
-	"use strict";
+	var _reactDom = __webpack_require__(38);
 	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.evolveCells = evolveCells;
-	function liveNeighbors(neighbors) {
-	  var count = 0;
-	  for (var i = 0; i < neighbors.length; i++) {
-	    neighbors[i] === 1 ? count++ : null;
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var RowCells = function (_Component) {
+	  _inherits(RowCells, _Component);
+	
+	  function RowCells() {
+	    _classCallCheck(this, RowCells);
+	
+	    return _possibleConstructorReturn(this, (RowCells.__proto__ || Object.getPrototypeOf(RowCells)).apply(this, arguments));
 	  }
-	  return count;
-	}
 	
-	function evolveCells(cells) {
-	  var rowLimit = cells.length;
-	  var newCells = [];
-	  for (var i = 0; i < rowLimit; i++) {
-	    var colLimit = cells[i].length;
-	    var newCol = [];
-	    for (var x = 0; x < colLimit; x++) {
-	      // current cell
-	      var current = cells[i][x];
-	      // Define current neighbors
-	      var neighbors = [];
-	      // up
-	      cells[i - 1] === undefined ? null : cells[i - 1][x] === undefined ? null : neighbors.push(cells[i - 1][x]);
-	      // up right
-	      cells[i - 1] === undefined ? null : cells[i - 1][x + 1] === undefined ? null : neighbors.push(cells[i - 1][x + 1]);
-	      // right
-	      cells[i] === undefined ? null : cells[i][x + 1] === undefined ? null : neighbors.push(cells[i][x + 1]);
-	      // down right
-	      cells[i + 1] === undefined ? null : cells[i + 1][x + 1] === undefined ? null : neighbors.push(cells[i + 1][x + 1]);
-	      // down
-	      cells[i + 1] === undefined ? null : cells[i + 1][x] === undefined ? null : neighbors.push(cells[i + 1][x]);
-	      // down left
-	      cells[i + 1] === undefined ? null : cells[i + 1][x - 1] === undefined ? null : neighbors.push(cells[i + 1][x - 1]);
-	      //  left
-	      cells[i] === undefined ? null : cells[i][x - 1] === undefined ? null : neighbors.push(cells[i][x - 1]);
-	      //  up left
-	      cells[i - 1] === undefined ? null : cells[i - 1][x - 1] === undefined ? null : neighbors.push(cells[i - 1][x - 1]);
-	      // rules
-	      var lives = liveNeighbors(neighbors);
-	      if (current == 1) {
-	        switch (true) {
-	          case lives < 2:
-	            newCol.push(0);
-	            break;
-	          case lives > 1 && lives < 4:
-	            newCol.push(1);
-	            break;
-	          case lives > 3:
-	            newCol.push(0);
-	            break;
-	        }
-	        // life
-	      } else {
-	        // dead
-	        if (lives == 3) {
-	          newCol.push(1);
-	        } else {
-	          newCol.push(current);
-	        }
-	      }
+	  _createClass(RowCells, [{
+	    key: 'render',
+	    value: function render() {
+	      var cells = this.props.cells;
+	
+	      console.log("cells: ", cells);
+	      var mappedCells = cells.map(function (cell) {
+	        return _react2.default.createElement(
+	          'li',
+	          { className: cell == 1 ? 'live' : 'dead' },
+	          ' ',
+	          cell,
+	          ' '
+	        );
+	      });
+	
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'row' },
+	        mappedCells
+	      );
 	    }
-	    newCells.push(newCol);
-	  }
-	  return newCells;
-	}
+	  }]);
+	
+	  return RowCells;
+	}(_react.Component);
+	
+	exports.default = RowCells;
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12)))
 
 /***/ }
 /******/ ]);

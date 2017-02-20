@@ -4,6 +4,13 @@ This is a demo of Game of life created in REDUX (I put the logic of the question
 
 Then I made a front visualization
 
+## Instructions
+
+```javaScript
+npm install
+node app.js
+```
+
 ### The original question:
 The Game of Life, also known simply as Life, is a cellular automaton devised by the British mathematician John Horton Conway in 1970.
 
